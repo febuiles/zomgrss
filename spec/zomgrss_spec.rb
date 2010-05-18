@@ -150,5 +150,5 @@ describe "ZOMGRSS.to_rss" do
     @feed.at_css("channel item description").text.should == '<p><img src="http://mheroin.com/img.jpg" />SuperBody!!</p>'
   end
 
-  it "supports HTML content in the body"
+  it "uses a GUID with isPermaLink=false"
 end
