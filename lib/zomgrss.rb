@@ -1,5 +1,9 @@
 require 'builder'
 
+def rss_me
+  self.extend ZOMGRSS
+end
+
 module ZOMGRSS
   def to_rss
     items = self.all
@@ -25,16 +29,23 @@ module ZOMGRSS
     end
   end
 
+  def rss_options(options={ })
+    @rss_opts = (@rss_opts || self.default_rss_options).merge(options)
+  end
+
   protected
-  def rss_options
-    default =  {
+  def default_rss_options
+    {
       :title => "m-heroin",
       :description => "m-heroin diary",
-      :base => "http://mheroin.com/diary",
+      :base_url => "http://mheroin.com/diary",
+      :body_method => :body,
+      :title_method => :title,
       :link_format => "http://mhheroin.com/diary/:id",
       :date_field => :created_at,
-      :guid_format => ":id@http://mheroin.com/diary/"
+      :guid_format => ":id@http://mheroin.com/diary/",
+      :finder => :all,
+      :finder_options => nil,
     }
-    default
   end
 end
