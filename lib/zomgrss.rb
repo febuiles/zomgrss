@@ -7,7 +7,15 @@ end
 
 module ZOMGRSS
   def to_rss
-    items = self.all
+    finder = rss_options[:finder]
+    finder_options = rss_options[:finder_options]
+
+    if finder_options
+      items = self.send(finder, *finder_options)
+    else
+      items = self.send(finder)
+    end
+
     xml = Builder::XmlMarkup.new
 
     xml.instruct! :xml, :version => '1.0'
@@ -46,7 +54,7 @@ module ZOMGRSS
       :date_field => :created_at,
       :guid_format => ":id@http://mheroin.com/diary/",
       :finder => :all,
-      :finder_rss_options => nil,
+      :finder_options => nil
     }
   end
 end

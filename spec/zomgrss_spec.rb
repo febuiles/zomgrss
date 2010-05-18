@@ -63,8 +63,12 @@ describe "Options" do
 end
 
 describe "ZOMGRSS.to_rss" do
-  before :all do
-    @feed = Nokogiri::XML(SuperSomething.to_rss)
+  before :each do
+    parse_feed
+  end
+
+  after :each do
+    SuperSomething.rss_options(default_options)
   end
 
   it "returns a a well formed RSS feed" do
@@ -88,14 +92,63 @@ describe "ZOMGRSS.to_rss" do
 
     SuperSomething.rss_options(:date_field => :fecha)
     @feed.at_css("channel item pubDate").text.should == expected
-    SuperSomething.rss_options(:date_field => :created_at) # reset
   end
 
-  it "generates a MovableType-like GUID from the items "
-  it "can use a custom GUID format"
-  it "can use a custom finder to fetch the objects"
-  it "can pass custom options to the finder"
-  it "supports custom title methods"
-  it "supports custom body methods"
+  it "generates a MovableType-like GUID from the items " do
+    expected = default_options[:guid_format].gsub(":id", "4")
+    @feed.at_css("channel item guid").text.should == expected
+  end
+
+  it "can use a custom GUID format" do
+    expected = "http://something.com/4"
+
+    SuperSomething.rss_options[:guid_format] = "http://something.com/:id"
+    parse_feed
+    @feed.at_css("channel item guid").text.should == expected
+  end
+
+  it "can use a custom finder to fetch the objects" do
+    @feed.css("channel item").length.should == 3
+
+    SuperSomething.rss_options[:finder] = :some
+    parse_feed
+    @feed.css("channel item").length.should == 1
+  end
+
+  it "can pass custom options to the finder" do
+    @feed.css("channel item").length.should == 3
+
+    SuperSomething.rss_options[:finder] = :some
+    SuperSomething.rss_options[:finder_options] = 2
+    parse_feed
+    @feed.css("channel item").length.should == 2
+  end
+
+  it "explodes custom finder options" do
+    @feed.css("channel item").length.should == 3
+
+    SuperSomething.rss_options[:finder] = :some
+    SuperSomething.rss_options[:finder_options] = [2, Time.utc(1987, "may", 4, 2, 0, 0)]
+    parse_feed
+    @feed.css("channel item").length.should == 2
+    @feed.at_css("channel item pubDate").text.should == "Mon, 04 May 1987 02:00:00 -0000"
+  end
+
+  it "supports custom title methods" do
+    @feed.at_css("channel item title").text.should == "SuperTitle!"
+
+    SuperSomething.rss_options[:title_method] = :titulo
+    parse_feed
+    @feed.at_css("channel item title").text.should == "SuperTitle!"
+  end
+
+  it "supports custom body methods" do
+    @feed.at_css("channel item description").text.should == '<p><img src="http://mheroin.com/img.jpg" />SuperBody!!</p>'
+
+    SuperSomething.rss_options[:body_method] = :cuerpo
+    parse_feed
+    @feed.at_css("channel item description").text.should == '<p><img src="http://mheroin.com/img.jpg" />SuperBody!!</p>'
+  end
+
   it "supports HTML content in the body"
 end
