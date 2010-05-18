@@ -1,4 +1,5 @@
 require 'builder'
+require 'time'
 
 def rss_me
   self.extend ZOMGRSS
@@ -12,25 +13,25 @@ module ZOMGRSS
     xml.instruct! :xml, :version => '1.0'
     xml.rss :version => "2.0" do
       xml.channel do
-        xml.title options[:title]
-        xml.description options[:description]
-        xml.link options[:base]
+        xml.title rss_options[:title]
+        xml.description rss_options[:description]
+        xml.link rss_options[:base_url]
 
         items.each do |item|
           xml.item do
-            xml.title item.send(options[:title_method])
-            xml.link options[:link_format].gsub(":id", item.id)
-            xml.description item.send(options[:body_method])
-            xml.pubDate Time.parse(item.created_at.to_s).rfc822()
-            xml.guid options[:guid_format].gsub(":id", item.id)
+            xml.title item.send(rss_options[:title_method])
+            xml.link rss_options[:link_format].gsub(":id", item.id.to_s)
+            xml.description item.send(rss_options[:body_method])
+            xml.pubDate Time.parse(item.send(rss_options[:date_field]).to_s).rfc822()
+            xml.guid rss_options[:guid_format].gsub(":id", item.id.to_s)
           end
         end
       end
     end
   end
 
-  def rss_options(options={ })
-    @rss_opts = (@rss_opts || self.default_rss_options).merge(options)
+  def rss_options(rss_options={ })
+    @rss_opts = (@rss_opts || self.default_rss_options).merge(rss_options)
   end
 
   protected
@@ -45,7 +46,7 @@ module ZOMGRSS
       :date_field => :created_at,
       :guid_format => ":id@http://mheroin.com/diary/",
       :finder => :all,
-      :finder_options => nil,
+      :finder_rss_options => nil,
     }
   end
 end

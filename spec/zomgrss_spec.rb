@@ -13,12 +13,12 @@ end
 
 describe "Options" do
   it "provides default options if there are none set" do
-    SuperSomething.rss_options.should == default_rss_options
+    SuperSomething.rss_options.should == default_options
   end
 
   it "adds options to the current options if they exist" do
     SuperSomething.rss_options(:title => "My new title")
-    SuperSomething.rss_options.should == default_rss_options.merge(:title => "My new title")
+    SuperSomething.rss_options.should == default_options.merge(:title => "My new title")
   end
 
   it "includes a feed title" do
@@ -63,10 +63,34 @@ describe "Options" do
 end
 
 describe "ZOMGRSS.to_rss" do
-  it "returns an RSS feed from all the items"
-  it "uses the correct feed base data"
-  it "replaces :link_format with the actual item link"
-  it "uses :created_at or a custom field for the item's date"
+  before :all do
+    @feed = Nokogiri::XML(SuperSomething.to_rss)
+  end
+
+  it "returns a a well formed RSS feed" do
+    @feed.errors.should be_empty
+  end
+
+  it "uses the correct feed base data" do
+    @feed.at_css("channel title").text.should == default_options[:title]
+    @feed.at_css("channel description").text.should == default_options[:description]
+    @feed.at_css("channel link").text.should == default_options[:base_url]
+  end
+
+  it "replaces :link_format with the actual item link" do
+    expected = default_options[:link_format].gsub(":id", "4")
+    @feed.at_css("channel item link").text.should == expected
+  end
+
+  it "uses :created_at or a custom field for the item's date" do
+    expected = "Sat, 04 Apr 1987 02:00:00 -0000"
+    @feed.at_css("channel item pubDate").text.should == expected
+
+    SuperSomething.rss_options(:date_field => :fecha)
+    @feed.at_css("channel item pubDate").text.should == expected
+    SuperSomething.rss_options(:date_field => :created_at) # reset
+  end
+
   it "generates a MovableType-like GUID from the items "
   it "can use a custom GUID format"
   it "can use a custom finder to fetch the objects"
