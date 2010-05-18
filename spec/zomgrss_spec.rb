@@ -150,5 +150,7 @@ describe "ZOMGRSS.to_rss" do
     @feed.at_css("channel item description").text.should == '<p><img src="http://mheroin.com/img.jpg" />SuperBody!!</p>'
   end
 
-  it "uses a GUID with isPermaLink=false"
+  it "uses a GUID with isPermaLink=false" do
+    @feed.at_css("channel item link").attributes["isPermaLink"].text.should == "false"
+  end
 end

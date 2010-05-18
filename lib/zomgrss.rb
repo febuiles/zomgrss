@@ -28,7 +28,7 @@ module ZOMGRSS
         items.each do |item|
           xml.item do
             xml.title item.send(rss_options[:title_method])
-            xml.link rss_options[:link_format].gsub(":id", item.id.to_s)
+            xml.link(rss_options[:link_format].gsub(":id", item.id.to_s), :isPermaLink => false)
             xml.description item.send(rss_options[:body_method])
             xml.pubDate Time.parse(item.send(rss_options[:date_field]).to_s).rfc822()
             xml.guid rss_options[:guid_format].gsub(":id", item.id.to_s)
@@ -45,14 +45,14 @@ module ZOMGRSS
   protected
   def default_rss_options
     {
-      :title => "m-heroin",
-      :description => "m-heroin diary",
-      :base_url => "http://mheroin.com/diary",
+      :title => "Your blog!",
+      :description => "A nice description of your emo posts",
+      :base_url => "http://example.com/blog",
       :body_method => :body,
       :title_method => :title,
-      :link_format => "http://mhheroin.com/diary/:id",
+      :link_format => "http://example.com/blog/:id",
       :date_field => :created_at,
-      :guid_format => ":id@http://mheroin.com/diary/",
+      :guid_format => ":id@http://exmaple.com/blog/", # works nicely when switching domains.
       :finder => :all,
       :finder_options => nil
     }
