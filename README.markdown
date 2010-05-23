@@ -162,7 +162,7 @@ each new RSS feed you want to create.
 * Generate static .xml files.
 
 Most of these can be easily implemented but I haven't needed them so far. If you'd like to see them
-included please let me know through an Issue in the [Github Tracker](http://github.com/febuiles/zomgrss/issues)
+included please let me know through an Issue in the [Github Tracker](http://github.com/febuiles/zomgrss/issues).
 
 Contact
 --------
