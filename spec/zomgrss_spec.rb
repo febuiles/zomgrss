@@ -46,7 +46,7 @@ describe "Options" do
   end
 
   it "includes a date field for the feed items, defaulted to :created_at" do
-    SuperSomething.rss_options[:date_field].should == :created_at
+    SuperSomething.rss_options[:date_method].should == :created_at
   end
 
   it "includes a GUID format for the feed items" do
@@ -90,7 +90,7 @@ describe "ZOMGRSS.to_rss" do
     expected = "Sat, 04 Apr 1987 02:00:00 -0000"
     @feed.at_css("channel item pubDate").text.should == expected
 
-    SuperSomething.rss_options(:date_field => :fecha)
+    SuperSomething.rss_options(:date_method => :fecha)
     @feed.at_css("channel item pubDate").text.should == expected
   end
 

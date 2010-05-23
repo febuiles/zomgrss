@@ -30,7 +30,7 @@ module ZOMGRSS
             xml.title item.send(rss_options[:title_method])
             xml.link(rss_options[:link_format].gsub(":id", item.id.to_s), :isPermaLink => false)
             xml.description item.send(rss_options[:body_method])
-            xml.pubDate Time.parse(item.send(rss_options[:date_field]).to_s).rfc822()
+            xml.pubDate Time.parse(item.send(rss_options[:date_method]).to_s).rfc822()
             xml.guid rss_options[:guid_format].gsub(":id", item.id.to_s)
           end
         end
@@ -51,8 +51,8 @@ module ZOMGRSS
       :body_method => :body,
       :title_method => :title,
       :link_format => "http://example.com/blog/:id",
-      :date_field => :created_at,
-      :guid_format => ":id@http://exmaple.com/blog/", # works nicely when switching domains.
+      :date_method => :created_at,
+      :guid_format => ":id@http://example.com/blog/", # works nicely when switching domains.
       :finder => :all,
       :finder_options => nil
     }
