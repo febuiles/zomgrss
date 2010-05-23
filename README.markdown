@@ -158,7 +158,6 @@ TODO
 each new RSS feed you want to create.
 * Support for Atom?
 * Allow lambdas instead of methods in rss_options (useful to return a text snippet of a field).
-* Create Rubygem (iknorite?)
 * Generate static .xml files.
 
 Most of these can be easily implemented but I haven't needed them so far. If you'd like to see them
