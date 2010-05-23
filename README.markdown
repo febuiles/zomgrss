@@ -40,6 +40,8 @@ Example
        </channel>
      </rss>
 
+You can see more examples in the `samples/` folder.
+
 Usage
 -----
 For a basic dose of ZOMGRSS just call `rss_me` in your class and then call `Class.to_rss`. Example:
