@@ -159,6 +159,12 @@ each new RSS feed you want to create.
 * Support for Atom?
 * Allow lambdas instead of methods in rss_options (useful to return a text snippet of a field).
 * Generate static .xml files.
+* Use blocks for options:
+
+     BlogPost.rss_options do |options|
+       options.title = "My emo blog"
+       options.base_url = "http://www.example.com"
+     end
 
 Most of these can be easily implemented but I haven't needed them so far. If you'd like to see them
 included please let me know through an Issue in the [Github Tracker](http://github.com/febuiles/zomgrss/issues).
