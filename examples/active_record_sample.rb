@@ -6,6 +6,10 @@ ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => "sam
 
 class BlogPost < ActiveRecord::Base
   rss_me
+  named_scope :limit, lambda { |lim| { :limit => lim } }
 end
+
+BlogPost.rss_options[:finder] = :limit
+BlogPost.rss_options[:finder_options] = 1
 
 print BlogPost.to_rss
