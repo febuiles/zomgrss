@@ -28,10 +28,10 @@ module ZOMGRSS
         items.each do |item|
           xml.item do
             xml.title item.send(rss_options[:title_method])
-            xml.link(rss_options[:link_format].gsub(":id", item.id.to_s), :isPermaLink => false)
+            xml.link rss_options[:link_format].gsub(":id", item.id.to_s)
             xml.description item.send(rss_options[:body_method])
             xml.pubDate Time.parse(item.send(rss_options[:date_method]).to_s).rfc822()
-            xml.guid rss_options[:guid_format].gsub(":id", item.id.to_s)
+            xml.guid(rss_options[:guid_format].gsub(":id", item.id.to_s), :isPermaLink => false)
           end
         end
       end

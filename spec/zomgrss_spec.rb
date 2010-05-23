@@ -151,6 +151,6 @@ describe "ZOMGRSS.to_rss" do
   end
 
   it "uses a GUID with isPermaLink=false" do
-    @feed.at_css("channel item link").attributes["isPermaLink"].text.should == "false"
+    @feed.at_css("channel item guid").attributes["isPermaLink"].text.should == "false"
   end
 end
