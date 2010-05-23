@@ -40,7 +40,7 @@ Example
        </channel>
      </rss>
 
-You can see more examples in the `samples/` folder.
+You can see more examples in the `examples/` folder.
 
 Usage
 -----
