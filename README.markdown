@@ -159,10 +159,12 @@ each new RSS feed you want to create.
 * Support for Atom?
 * Allow lambdas instead of methods in rss_options (useful to return a text snippet of a field).
 * Create Rubygem (iknorite?)
+* Generate static .xml files.
 
 Most of these can be easily implemented but I haven't needed them so far. If you'd like to see them
-included please let me know.
+included please let me know through an Issue in the [Github Tracker](http://github.com/febuiles/zomgrss/issues)
 
 Contact
 --------
 * **Email**: federico@mheroin.com
+* **Issues**: [Github Tracker](http://github.com/febuiles/zomgrss/issues)
