@@ -28,7 +28,8 @@ Gem::Specification.new do |s|
      "lib/zomgrss.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb",
-     "spec/zomgrss_spec.rb"
+     "spec/zomgrss_spec.rb",
+     "zomgrss.gemspec"
   ]
   s.homepage = %q{http://github.com/febuiles/zomgrss}
   s.rdoc_options = ["--charset=UTF-8"]
